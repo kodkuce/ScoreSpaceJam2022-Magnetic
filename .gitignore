@@ -1,0 +1,10 @@
+Magnetic/.mono/*
+Magnetic/.mono/
+Magnetic/data_*/
+Magnetic/mono_crash.*.json
+
+# Godot-specific ignores
+Magnetic/.import/
+Magnetic/export.cfg
+Magnetic/export_presets.cfg
+
