@@ -44,17 +44,8 @@ public class LootLockerHandler : Node
             GD.PrintErr("LL failed to make seasion");
         }
         httpRequest.Disconnect("request_completed", this, nameof(OnInitSessionCompleted));
-
-        EndSession();
     }
 
-
-
-/*
-DELETE  https://qyxw6316.api.lootlocker.io/game/v1/session
-content-type: application/json
-x-session-token: e45231842785252f171d659b8bbd78cd4eab764b
-*/
 
     public void EndSession()
     {
@@ -67,7 +58,7 @@ x-session-token: e45231842785252f171d659b8bbd78cd4eab764b
 
     public void OnEndSessionCompleted(int result, int response_code, string[] headers, byte[] body)
     {
-         if(response_code==200)
+        if(response_code==200)
         {
             JSONParseResult json = JSON.Parse(System.Text.Encoding.UTF8.GetString(body));
             GD.Print(json.Result);
@@ -77,6 +68,81 @@ x-session-token: e45231842785252f171d659b8bbd78cd4eab764b
             GD.PrintErr("LL failed to end seasion");
         }
         httpRequest.Disconnect("request_completed", this, nameof(OnEndSessionCompleted));
+    }
+
+    public void SetPlayerName(string name)
+    {
+        GD.PrintErr("LL setting name");
+        string[] headers = {"Content-Type: application/json", $"x-session-token: {sessionToken}"};
+        string url = "https://qyxw6316.api.lootlocker.io/game/player/name";
+        string data = $"{{ \"name\":\"{name}\"}}";
+        httpRequest.Connect("request_completed", this, nameof(OnSetPlayerNameCompleted));
+        httpRequest.Request(url, headers, false, HTTPClient.Method.Patch, data);
+    }
+
+    public void OnSetPlayerNameCompleted(int result, int response_code, string[] headers, byte[] body)
+    {
+        if(response_code==200)
+        {
+            JSONParseResult json = JSON.Parse(System.Text.Encoding.UTF8.GetString(body));
+            GD.Print(json.Result);
+            GD.PrintErr("LL name set completed");
+        }else
+        {
+            GD.PrintErr("LL failed to set name");
+        }
+        httpRequest.Disconnect("request_completed", this, nameof(OnSetPlayerNameCompleted));
+    }
+
+    public void SendScore(int score)
+    {
+        GD.PrintErr("LL sending score");
+        string[] headers = {"Content-Type: application/json", $"x-session-token: {sessionToken}"};
+        string url = "https://qyxw6316.api.lootlocker.io/game/leaderboards/2666/submit";
+        string data = $"{{ \"score\":{score}}}";
+        httpRequest.Connect("request_completed", this, nameof(OnSendScoreCompleted));
+        httpRequest.Request(url, headers, false, HTTPClient.Method.Post, data);
+    }
+
+    public void OnSendScoreCompleted(int result, int response_code, string[] headers, byte[] body)
+    {
+        if(response_code==200)
+        {
+            JSONParseResult json = JSON.Parse(System.Text.Encoding.UTF8.GetString(body));
+            GD.Print(json.Result);
+            GD.PrintErr("LL score send completed");
+        }else
+        {
+            JSONParseResult json = JSON.Parse(System.Text.Encoding.UTF8.GetString(body));
+            GD.Print(json.Result);
+            GD.PrintErr("LL failed to send score");
+        }
+        httpRequest.Disconnect("request_completed", this, nameof(OnSendScoreCompleted));
+    }
+
+    public void GetLeaderboardTop10Data()
+    {
+        GD.PrintErr("LL getting top 10");
+        string[] headers = {"Content-Type: application/json", $"x-session-token: {sessionToken}"};
+        string url = "https://qyxw6316.api.lootlocker.io/game/leaderboards/2666/list?count=10";
+        httpRequest.Connect("request_completed", this, nameof(OnGetLeaderboardTop10DataCompleted));
+        httpRequest.Request(url, headers, false, HTTPClient.Method.Get);
+    }
+
+    public void OnGetLeaderboardTop10DataCompleted(int result, int response_code, string[] headers, byte[] body)
+    {
+        if(response_code==200)
+        {
+            JSONParseResult json = JSON.Parse(System.Text.Encoding.UTF8.GetString(body));
+            GD.Print(json.Result);
+            GD.PrintErr("LL got top 10 completed");
+        }else
+        {
+            JSONParseResult json = JSON.Parse(System.Text.Encoding.UTF8.GetString(body));
+            GD.Print(json.Result);
+            GD.PrintErr("LL failed to get top 10");
+        }
+        httpRequest.Disconnect("request_completed", this, nameof(OnGetLeaderboardTop10DataCompleted));
     }
 
 }
