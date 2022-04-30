@@ -10,12 +10,15 @@ bg_color = Color( 0.6, 0.6, 0.6, 0 )
 [node name="Leaderboard" type="Control"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_right = -680.0
-margin_bottom = -20.0
 script = ExtResource( 1 )
-leaderboardEntriesRoot = NodePath("CenterContainer/LeaderboardMain/LeaderboardEntries")
+leaderboardEntriesRoot = NodePath("Root/CenterContainer/LeaderboardMain/LeaderboardEntries")
 
-[node name="CloseButton" type="Button" parent="."]
+[node name="Root" type="Control" parent="."]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="CloseButton" type="Button" parent="Root"]
 anchor_left = 1.0
 anchor_right = 1.0
 margin_left = -42.0
@@ -24,20 +27,20 @@ custom_styles/pressed = SubResource( 1 )
 custom_styles/normal = SubResource( 2 )
 text = "X"
 
-[node name="CenterContainer" type="CenterContainer" parent="."]
+[node name="CenterContainer" type="CenterContainer" parent="Root"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="LeaderboardMain" type="VBoxContainer" parent="CenterContainer"]
-margin_left = 226.0
-margin_top = 50.0
-margin_right = 373.0
-margin_bottom = 650.0
+[node name="LeaderboardMain" type="VBoxContainer" parent="Root/CenterContainer"]
+margin_left = 106.0
+margin_top = 20.0
+margin_right = 253.0
+margin_bottom = 620.0
 rect_min_size = Vector2( 0, 600 )
 
-[node name="Label" type="Label" parent="CenterContainer/LeaderboardMain"]
+[node name="Label" type="Label" parent="Root/CenterContainer/LeaderboardMain"]
 margin_right = 147.0
 margin_bottom = 50.0
 rect_min_size = Vector2( 0, 50 )
@@ -45,7 +48,7 @@ text = "LEADERBOARD"
 align = 1
 valign = 1
 
-[node name="LeaderboardEntries" type="VBoxContainer" parent="CenterContainer/LeaderboardMain"]
+[node name="LeaderboardEntries" type="VBoxContainer" parent="Root/CenterContainer/LeaderboardMain"]
 margin_top = 54.0
 margin_right = 147.0
 margin_bottom = 54.0

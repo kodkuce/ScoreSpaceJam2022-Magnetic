@@ -8,14 +8,43 @@ public class LootLockerHandler : Node
     const string GameKey = "c9ee5b9d357d772451f303965e53a603b3b192c9";
     public static string playerName = "EMPTY";
     string sessionToken;
+    string playerIdentifier;
     int playerID;
+    bool isFreshUser;
+
+    public override void _EnterTree()
+    {
+        base._EnterTree();
+        GameEvents.PlayerPrefsInited += OnPlayerPrefsInited;
+    }
+
+    public override void _ExitTree()
+    {
+        base._ExitTree();
+        GameEvents.PlayerPrefsInited -= OnPlayerPrefsInited;
+    }
+
+    void OnPlayerPrefsInited()
+    {
+        CheckIfFreshUser();
+    }
+
 
     public override void _Ready()
     {
         GD.PrintErr("LL node entered sceneTree");
         httpRequest = GetNode<HTTPRequest>("HTTPRequest");
+    }
 
-        InitSession();
+    public void CheckIfFreshUser()
+    {
+        GD.PrintErr("LL chekcing if fresh user");
+        playerIdentifier = PlayerPrefs.GetString("playerIdentifier");
+        if(string.IsNullOrEmpty(playerIdentifier))
+        {
+            GD.Print("LL starting as fresh user");
+            isFreshUser = true;
+        }
     }
 
     public void InitSession()
@@ -24,6 +53,12 @@ public class LootLockerHandler : Node
         string[] headers = {"Content-Type: application/json",};
         string url = "https://qyxw6316.api.lootlocker.io/game/v2/session/guest";
         string data = $"{{ \"game_key\":\"{GameKey}\", \"game_version\": \"0.10.0.0\", \"development_mode\": \"false\"}}";
+
+        if(!isFreshUser)
+        {
+            data = $"{{ \"game_key\":\"{GameKey}\", \"game_version\": \"0.10.0.0\", \"development_mode\": \"false\", \"player_identifier\":\"{playerIdentifier}\"}}";
+        }
+
         httpRequest.Connect("request_completed", this, nameof(OnInitSessionCompleted));
         httpRequest.Request(url, headers, false, HTTPClient.Method.Post, data);
     }
@@ -37,13 +72,25 @@ public class LootLockerHandler : Node
             Godot.Collections.Dictionary results = json.Result as Godot.Collections.Dictionary;
             sessionToken = results["session_token"].ToString();
             playerID = Int32.Parse(results["player_id"].ToString());
-            GD.PrintErr($"pid: {playerID}, sT: {sessionToken}");
+            playerIdentifier = results["player_identifier"].ToString();
+
+            //Save playerIdentifier in cookie so if player reloads he does not need to type name again
+            PlayerPrefs.SetString("playerIdentifier", playerIdentifier);
+
             GD.PrintErr("LL initing seasion completed");
         }else
         {
             GD.PrintErr("LL failed to make seasion");
         }
         httpRequest.Disconnect("request_completed", this, nameof(OnInitSessionCompleted));
+
+        if(isFreshUser)
+        {
+            GameEvents.ShowSetNamePopup?.Invoke();            
+        }else
+        {
+            GetPlayerName();
+        }
     }
 
 
@@ -70,6 +117,31 @@ public class LootLockerHandler : Node
         httpRequest.Disconnect("request_completed", this, nameof(OnEndSessionCompleted));
     }
 
+    public void GetPlayerName()
+    {
+        GD.PrintErr("LL getting name");
+        string[] headers = {"Content-Type: application/json", $"x-session-token: {sessionToken}"};
+        string url = "https://qyxw6316.api.lootlocker.io/game/player/name";
+        httpRequest.Connect("request_completed", this, nameof(OnGetPlayerNameCompleted));
+        httpRequest.Request(url, headers, false, HTTPClient.Method.Get);
+    }
+
+    public void OnGetPlayerNameCompleted(int result, int response_code, string[] headers, byte[] body)
+    {
+        if(response_code==200)
+        {
+            JSONParseResult json = JSON.Parse(System.Text.Encoding.UTF8.GetString(body));
+            GD.Print(json.Result);
+            GD.PrintErr("LL name get completed");
+        }else
+        {
+            GD.PrintErr("LL failed to get name");
+        }
+        httpRequest.Disconnect("request_completed", this, nameof(OnSetPlayerNameCompleted));
+
+        GameEvents.ShowStartScene?.Invoke();
+    }
+
     public void SetPlayerName(string name)
     {
         GD.PrintErr("LL setting name");
@@ -92,6 +164,8 @@ public class LootLockerHandler : Node
             GD.PrintErr("LL failed to set name");
         }
         httpRequest.Disconnect("request_completed", this, nameof(OnSetPlayerNameCompleted));
+
+        GameEvents.ShowStartScene?.Invoke();
     }
 
     public void SendScore(int score)
@@ -145,4 +219,8 @@ public class LootLockerHandler : Node
         httpRequest.Disconnect("request_completed", this, nameof(OnGetLeaderboardTop10DataCompleted));
     }
 
+    void SaveData()
+    {
+
+    }
 }

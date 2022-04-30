@@ -8,19 +8,27 @@
 
 config_version=4
 
+_global_script_classes=[  ]
+_global_script_class_icons={
+}
+
 [application]
 
 config/name="Magnetic"
+run/main_scene="res://Main.tscn"
 config/icon="res://icon.png"
 
 [autoload]
 
+GameEvents="*res://GameEvents/GameEvents.cs"
 LootLockerHandler="*res://LootLocker/LootLockerHandler.tscn"
+PlayerPrefs="*res://PlayerPrefs/PlayerPrefs.cs"
 
 [display]
 
-window/size/width=1280
-window/size/height=720
+window/size/width=360
+window/size/height=640
+window/size/resizable=false
 window/handheld/orientation="portrait"
 
 [gui]

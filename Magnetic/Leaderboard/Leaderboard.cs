@@ -4,10 +4,17 @@ using System;
 public class Leaderboard : Control
 {
     [Export] public NodePath leaderboardEntriesRoot;
+    [Export] public NodePath leaderboardRoot;
 
-    public override void _Ready()
+
+    public override void _EnterTree()
     {
-        FillWithData();
+        base._EnterTree();
+    }
+
+    public override void _ExitTree()
+    {
+        base._ExitTree();
     }
 
 
