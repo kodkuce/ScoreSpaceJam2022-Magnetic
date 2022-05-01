@@ -1,0 +1,77 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://Fonts/ModernDOS/ModernDOS-64.tres" type="DynamicFont" id=1]
+[ext_resource path="res://Hud/NemeSetter/NameSetter.cs" type="Script" id=2]
+
+[sub_resource type="StyleBoxFlat" id=1]
+bg_color = Color( 0, 0, 0, 1 )
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color( 1, 1, 1, 1 )
+
+[node name="NameSetter" type="Control"]
+visible = false
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -150.0
+margin_top = -125.0
+margin_right = 150.0
+margin_bottom = 125.0
+rect_min_size = Vector2( 300, 250 )
+script = ExtResource( 2 )
+nameLineEditNP = NodePath("Panel/LineEdit")
+saveButtonNP = NodePath("Panel/Button")
+
+[node name="Panel" type="Panel" parent="."]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -150.0
+margin_top = -125.0
+margin_right = 150.0
+margin_bottom = 125.0
+custom_styles/panel = SubResource( 1 )
+
+[node name="Label" type="Label" parent="Panel"]
+margin_left = 10.0
+margin_top = 15.0
+margin_right = 334.0
+margin_bottom = 82.0
+custom_fonts/font = ExtResource( 1 )
+text = "New player i see
+need your username
+for leaderboard:"
+
+[node name="LineEdit" type="LineEdit" parent="Panel"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -140.0
+margin_top = -5.0
+margin_right = 140.0
+margin_bottom = 35.0001
+rect_min_size = Vector2( 280, 0 )
+custom_fonts/font = ExtResource( 1 )
+align = 1
+max_length = 8
+placeholder_text = "Type it here:)"
+caret_blink = true
+
+[node name="Button" type="Button" parent="Panel"]
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+margin_left = -75.0
+margin_top = -59.0
+margin_right = 75.0
+margin_bottom = -16.9999
+rect_min_size = Vector2( 150, 0 )
+custom_fonts/font = ExtResource( 1 )
+text = "SAVE"

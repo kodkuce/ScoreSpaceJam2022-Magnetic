@@ -108,13 +108,11 @@ shape = SubResource( 4 )
 [node name="Player" parent="." instance=ExtResource( 1 )]
 position = Vector2( 182, 359 )
 gravity_scale = 0.0
-contacts_reported = 0
-contact_monitor = false
 linear_damp = 1.0
 angular_damp = 1.0
 
 [node name="Point" parent="." instance=ExtResource( 2 )]
-position = Vector2( 177, 521 )
+position = Vector2( 265, 180 )
 
 [node name="MouseDragLine" type="Line2D" parent="."]
 visible = false

@@ -52,7 +52,15 @@ public class Player : RigidBody2D
         )
         {
             GD.PrintErr("CRASHED");
+            SetProcess(false);
+            SetPhysicsProcess(false);
+            SetPhysicsProcessInternal(false);
+            LinearVelocity = Vector2.Zero;
+            AngularVelocity = 0;
+            CustomIntegrator = true;
             gameEnd = true;
+
+            GetNode<CPUParticles2D>("DamageParticle").Emitting = true;
             GameEvents.GameEnd?.Invoke();
         }
     }

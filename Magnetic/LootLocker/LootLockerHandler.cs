@@ -6,7 +6,7 @@ public class LootLockerHandler : Node
     HTTPRequest httpRequest;
 
     const string GameKey = "c9ee5b9d357d772451f303965e53a603b3b192c9";
-    public static string playerName = "EMPTY";
+    public static string playerName;
     string sessionToken;
     string playerIdentifier;
     int playerID;
@@ -16,18 +16,26 @@ public class LootLockerHandler : Node
     {
         base._EnterTree();
         GameEvents.PlayerPrefsInited += OnPlayerPrefsInited;
+        GameEvents.PlayerSetName += OnPlayerSetName;
     }
 
     public override void _ExitTree()
     {
         base._ExitTree();
         GameEvents.PlayerPrefsInited -= OnPlayerPrefsInited;
+        GameEvents.PlayerSetName -= OnPlayerSetName;
     }
 
     void OnPlayerPrefsInited()
     {
         return;
         CheckIfFreshUser();
+    }
+
+    void OnPlayerSetName(string name)
+    {
+        playerName = name;
+        SetPlayerName(playerName);
     }
 
 
@@ -46,6 +54,7 @@ public class LootLockerHandler : Node
             GD.Print("LL starting as fresh user");
             isFreshUser = true;
         }
+        InitSession();
     }
 
     public void InitSession()
@@ -87,7 +96,7 @@ public class LootLockerHandler : Node
 
         if(isFreshUser)
         {
-            GameEvents.ShowSetNamePopup?.Invoke();            
+            GameEvents.ShowNameSetterPopup?.Invoke();            
         }else
         {
             GetPlayerName();
@@ -134,6 +143,8 @@ public class LootLockerHandler : Node
             JSONParseResult json = JSON.Parse(System.Text.Encoding.UTF8.GetString(body));
             GD.Print(json.Result);
             GD.PrintErr("LL name get completed");
+            Godot.Collections.Dictionary results = json.Result as Godot.Collections.Dictionary;
+            playerName = results["name"].ToString();
         }else
         {
             GD.PrintErr("LL failed to get name");
@@ -160,12 +171,14 @@ public class LootLockerHandler : Node
             JSONParseResult json = JSON.Parse(System.Text.Encoding.UTF8.GetString(body));
             GD.Print(json.Result);
             GD.PrintErr("LL name set completed");
+            Godot.Collections.Dictionary results = json.Result as Godot.Collections.Dictionary;
+            playerName = results["name"].ToString();
+            PlayerPrefs.SetString("playerName", playerName);
         }else
         {
             GD.PrintErr("LL failed to set name");
         }
         httpRequest.Disconnect("request_completed", this, nameof(OnSetPlayerNameCompleted));
-
         GameEvents.ShowStartScene?.Invoke();
     }
 

@@ -8,11 +8,13 @@ public class Game : Node2D
 
     public static Vector2 oldMagnetForceDir = Vector2.One;
     public static Vector2 newMagnetForceDir = Vector2.One;
+    public static string playerName;
     float speed = 1;
     float switchDirSpeed = 0.2f;
     bool gameStarted;
     bool gameEnded;
     float passedTime = 0f;
+
 
     public static int score;
 
@@ -21,16 +23,23 @@ public class Game : Node2D
     {
         base._EnterTree();
         GameEvents.GameEnd += OnGameEnd;
+        GameEvents.PointCollected += OnPointCollected;
     }
 
     public override void _ExitTree()
     {
         base._ExitTree();
+        GameEvents.GameEnd -= OnGameEnd;
+        GameEvents.PointCollected += OnPointCollected;
     }
 
-    public void OnGameEnd()
+    void OnGameEnd()
     {
         gameEnded = true;
+    }
+    void OnPointCollected()
+    {
+        score++;
     }
 
     public void StartGame()
@@ -43,6 +52,7 @@ public class Game : Node2D
     {
         dragLine = GetNode<Line2D>(dragLineNP);
         newMagnetForceDir = GetNewRandomDir();
+        score = 0;
     }
 
     Vector2 GetNewRandomDir()

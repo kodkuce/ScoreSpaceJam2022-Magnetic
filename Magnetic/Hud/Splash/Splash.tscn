@@ -1,0 +1,59 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://Fonts/ModernDOS/ModernDOS-32.tres" type="DynamicFont" id=1]
+[ext_resource path="res://Hud/Splash/Splash.cs" type="Script" id=2]
+
+[sub_resource type="Curve" id=1]
+_data = [ Vector2( 0.00200803, 0.990909 ), 0.0, -0.992903, 0, 1, Vector2( 1, 0 ), -0.992903, 0.0, 1, 0 ]
+
+[node name="Splash" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 2 )
+
+[node name="DragTutorial" type="Label" parent="."]
+margin_left = 112.0
+margin_top = 387.0
+margin_right = 229.0
+margin_bottom = 423.0
+custom_fonts/font = ExtResource( 1 )
+text = "Drag to apply
+force to UFO"
+
+[node name="DontHitWalls" type="Label" parent="."]
+margin_left = 12.0
+margin_top = 439.0
+margin_right = 282.0
+margin_bottom = 475.0
+rect_rotation = -90.0
+custom_fonts/font = ExtResource( 1 )
+text = "Whatwer you do DONT HIT WALLS!"
+
+[node name="MagGuageTutorial" type="Label" parent="."]
+margin_left = 36.0
+margin_top = 563.0
+margin_right = 198.0
+margin_bottom = 599.0
+rect_rotation = -10.8
+custom_fonts/font = ExtResource( 1 )
+text = "Magnetic force
+predictor guage "
+
+[node name="CollectPointsTutorial" type="Label" parent="."]
+margin_left = 186.0
+margin_top = 179.0
+margin_right = 312.0
+margin_bottom = 215.0
+rect_rotation = -27.1
+custom_fonts/font = ExtResource( 1 )
+text = "Collect points"
+
+[node name="MouseDragLine2" type="Line2D" parent="."]
+position = Vector2( 245, 430 )
+z_index = -1
+points = PoolVector2Array( 0, 0, -70, 50 )
+width = 20.0
+width_curve = SubResource( 1 )
+default_color = Color( 1, 1, 1, 1 )
+begin_cap_mode = 2
+end_cap_mode = 2

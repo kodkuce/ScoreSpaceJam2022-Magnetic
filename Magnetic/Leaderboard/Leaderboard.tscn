@@ -18,6 +18,11 @@ leaderboardEntriesRoot = NodePath("Root/CenterContainer/LeaderboardMain/Leaderbo
 leaderboardRoot = NodePath("Root")
 closeButton = NodePath("Root/CloseButton")
 
+[node name="Panel" type="Panel" parent="."]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+
 [node name="Root" type="Control" parent="."]
 visible = false
 anchor_right = 1.0

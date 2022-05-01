@@ -3,19 +3,32 @@ using System;
 
 public class Score : Label
 {
-    // Declare member variables here. Examples:
-    // private int a = 2;
-    // private string b = "text";
+    int score = 0;
 
-    // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {
-        
+        base._Ready();
+        UpdateText();
     }
 
-//  // Called every frame. 'delta' is the elapsed time since the previous frame.
-//  public override void _Process(float delta)
-//  {
-//      
-//  }
+    public override void _EnterTree()
+    {
+        base._EnterTree();
+        GameEvents.PointCollected += OnPointCollected;
+    }
+    public override void _ExitTree()
+    {
+        base._ExitTree();
+        GameEvents.PointCollected -= OnPointCollected;
+    }
+    void OnPointCollected()
+    {
+        score++;
+        UpdateText();
+    }
+
+    void UpdateText()
+    {
+        Text = "score:" + score.ToString("0000");
+    }
 }
