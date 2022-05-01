@@ -5,7 +5,7 @@ public class Game : Node2D
 {
     [Export] public NodePath dragLineNP;
     Line2D dragLine;
-
+    Point scorePointResource;
     public static Vector2 oldMagnetForceDir = Vector2.One;
     public static Vector2 newMagnetForceDir = Vector2.One;
     public static string playerName;
@@ -14,6 +14,7 @@ public class Game : Node2D
     bool gameStarted;
     bool gameEnded;
     float passedTime = 0f;
+    bool restarting;
 
 
     public static int score;
@@ -24,13 +25,15 @@ public class Game : Node2D
         base._EnterTree();
         GameEvents.GameEnd += OnGameEnd;
         GameEvents.PointCollected += OnPointCollected;
+        GameEvents.PressRestartButton += RestartGame;
     }
 
     public override void _ExitTree()
     {
         base._ExitTree();
         GameEvents.GameEnd -= OnGameEnd;
-        GameEvents.PointCollected += OnPointCollected;
+        GameEvents.PointCollected -= OnPointCollected;
+        GameEvents.PressRestartButton -= RestartGame;
     }
 
     void OnGameEnd()
@@ -82,6 +85,7 @@ public class Game : Node2D
     {
         base._Input(@event);
         MouseDragInput(@event);
+        CheckForRestartBTN(@event);
     }
     Godot.Collections.Array<Vector2> arr = new Godot.Collections.Array<Vector2>();
     Vector2[] atmLines;
@@ -111,6 +115,21 @@ public class Game : Node2D
         {
             atmLines[1] = mouseMotion.Position;
             dragLine.SetPoints(atmLines);
+        }
+    }
+
+    void RestartGame()
+    {
+        GetTree().ReloadCurrentScene();
+    }
+
+    void CheckForRestartBTN(InputEvent @event)
+    {
+        if(@event is InputEventKey key && key.Scancode == (uint)KeyList.R && !restarting)
+        {
+            restarting = true;
+            GD.PrintErr("Pritisnuo R");
+            RestartGame();
         }
     }
 }

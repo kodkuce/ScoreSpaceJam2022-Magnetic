@@ -113,6 +113,7 @@ angular_damp = 1.0
 
 [node name="Point" parent="." instance=ExtResource( 2 )]
 position = Vector2( 265, 180 )
+IsFirst = true
 
 [node name="MouseDragLine" type="Line2D" parent="."]
 visible = false

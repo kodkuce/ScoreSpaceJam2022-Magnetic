@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://Leaderboard/Leaderboard.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Hud/MagnetForceGuage/MagnetForceGuageHud.tscn" type="PackedScene" id=2]
@@ -6,6 +6,7 @@
 [ext_resource path="res://Fonts/Bad Mofo/BadMofo64.tres" type="DynamicFont" id=4]
 [ext_resource path="res://Hud/Splash/Splash.tscn" type="PackedScene" id=5]
 [ext_resource path="res://Hud/NemeSetter/NameSetter.tscn" type="PackedScene" id=6]
+[ext_resource path="res://Hud/GameOwer/GameOwer.tscn" type="PackedScene" id=8]
 
 [node name="HUD" type="Control"]
 anchor_right = 1.0
@@ -36,5 +37,8 @@ margin_right = 32.0
 [node name="Splash" parent="." instance=ExtResource( 5 )]
 
 [node name="Leaderboard" parent="." instance=ExtResource( 1 )]
+
+[node name="GameOwer" parent="." instance=ExtResource( 8 )]
+visible = false
 
 [node name="NameSetter" parent="." instance=ExtResource( 6 )]

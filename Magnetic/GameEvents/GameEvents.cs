@@ -14,4 +14,6 @@ public class GameEvents : Node
     public static Action ShowLeaderboard;
     public static Action PointCollected;
     public static Action<string> PlayerSetName;
+    public static Action PressLeaderboardButton;
+    public static Action PressRestartButton;
 }

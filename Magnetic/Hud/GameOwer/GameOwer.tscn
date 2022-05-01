@@ -1,0 +1,78 @@
+[gd_scene load_steps=9 format=2]
+
+[ext_resource path="res://Hud/GameOwer/GameOwer.cs" type="Script" id=1]
+[ext_resource path="res://Theme/GameTheme.tres" type="Theme" id=2]
+
+[sub_resource type="StyleBoxFlat" id=1]
+bg_color = Color( 0.6, 0.6, 0.6, 0 )
+
+[sub_resource type="StyleBoxFlat" id=2]
+
+[sub_resource type="StyleBoxFlat" id=3]
+bg_color = Color( 0.6, 0.6, 0.6, 0 )
+
+[sub_resource type="StyleBoxFlat" id=4]
+bg_color = Color( 0.6, 0.6, 0.6, 0 )
+
+[sub_resource type="StyleBoxFlat" id=5]
+
+[sub_resource type="StyleBoxFlat" id=6]
+bg_color = Color( 0.6, 0.6, 0.6, 0 )
+
+[node name="GameOwer" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 1 )
+leaderboardButtonNP = NodePath("CenterContainer/VBoxContainer/LeaderboardButton")
+restartButtonNP = NodePath("RestartButton")
+highscoreLabelNP = NodePath("CenterContainer/VBoxContainer/NewHighScore")
+
+[node name="CenterContainer" type="CenterContainer" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer"]
+margin_left = 92.0
+margin_top = 282.0
+margin_right = 267.0
+margin_bottom = 358.0
+
+[node name="Label" type="Label" parent="CenterContainer/VBoxContainer"]
+margin_right = 175.0
+margin_bottom = 36.0
+text = "GAMEOWER"
+align = 1
+
+[node name="NewHighScore" type="Label" parent="CenterContainer/VBoxContainer"]
+visible = false
+margin_top = 40.0
+margin_right = 174.0
+margin_bottom = 76.0
+text = "NEW HIGHSCORE"
+align = 1
+
+[node name="LeaderboardButton" type="Button" parent="CenterContainer/VBoxContainer"]
+margin_top = 40.0
+margin_right = 175.0
+margin_bottom = 76.0
+rect_pivot_offset = Vector2( 80, 18 )
+theme = ExtResource( 2 )
+custom_styles/hover = SubResource( 1 )
+custom_styles/pressed = SubResource( 2 )
+custom_styles/normal = SubResource( 3 )
+text = " Leaderboard "
+
+[node name="RestartButton" type="Button" parent="."]
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+margin_left = -87.0
+margin_top = -140.0
+margin_right = 87.0
+margin_bottom = -104.0
+theme = ExtResource( 2 )
+custom_styles/hover = SubResource( 4 )
+custom_styles/pressed = SubResource( 5 )
+custom_styles/normal = SubResource( 6 )
+text = "RESTART"

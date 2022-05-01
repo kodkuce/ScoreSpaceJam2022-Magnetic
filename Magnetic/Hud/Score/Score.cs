@@ -3,8 +3,6 @@ using System;
 
 public class Score : Label
 {
-    int score = 0;
-
     public override void _Ready()
     {
         base._Ready();
@@ -23,12 +21,11 @@ public class Score : Label
     }
     void OnPointCollected()
     {
-        score++;
         UpdateText();
     }
 
     void UpdateText()
     {
-        Text = "score:" + score.ToString("0000");
+        Text = "score:" + Game.score.ToString("0000");
     }
 }
