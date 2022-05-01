@@ -12,14 +12,40 @@ public class GameOwer : Control
     Button leaderboardButton;
     Label highscoreLabele;
     float time;
+    public override void _EnterTree()
+    {
+        base._EnterTree();
+        GameEvents.GameEnd += OnGameEnd;
+    }
+    public override void _ExitTree()
+    {
+        base._ExitTree();
+        GameEvents.GameEnd -= OnGameEnd;
+    }
+    void OnGameEnd()
+    {
+        Visible = true;
+        int oldScore = PlayerPrefs.GetString("score") == null ? 0 : int.Parse(PlayerPrefs.GetString("score"));
+        GD.Print(oldScore);
+        if( oldScore < Game.score )
+        {
+            highscoreLabele.Visible = true;
+        }
+
+        leaderboardButton.Disabled = false;
+        restartButton.Disabled = false;
+    }
+
+
+
     public override void _Ready()
     {
         leaderboardButton = GetNode<Button>(leaderboardButtonNP);
         restartButton = GetNode<Button>(restartButtonNP);
         highscoreLabele = GetNode<Label>(highscoreLabelNP);
 
-        // leaderboardButton.Disabled = true;
-        // restartButton.Disabled = true;
+        leaderboardButton.Disabled = true;
+        restartButton.Disabled = true;
 
         leaderboardButton.Connect("button_up", this, nameof(PressLeaderboard));
         restartButton.Connect("button_up", this, nameof(PressRestart));

@@ -23,6 +23,10 @@ public class MagnetForceGuageHud : TextureRect
         // float a2angle = Mathf.Rad2Deg(Game.newMagnetForceDir.Angle());
         float a1angle = Game.oldMagnetForceDir.Angle();
         float a2angle = Game.newMagnetForceDir.Angle();
+        float a1mag = Game.oldMagnetForceDir.Length();
+        float a2mag = Game.newMagnetForceDir.Length();
+        arrow1.RectScale = ( Vector2.One * Mathf.Clamp(1f+ a1mag/300f,1f,2f));
+        arrow2.RectScale = ( Vector2.One * Mathf.Clamp(1f+ a2mag/300f,1f,2f));
         arrow1.SetRotation(a1angle);
         arrow2.SetRotation(a2angle);
     }

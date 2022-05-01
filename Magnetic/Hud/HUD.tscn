@@ -3,7 +3,7 @@
 [ext_resource path="res://Leaderboard/Leaderboard.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Hud/MagnetForceGuage/MagnetForceGuageHud.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Hud/Score/Score.cs" type="Script" id=3]
-[ext_resource path="res://Fonts/Bad Mofo/BadMofo64.tres" type="DynamicFont" id=4]
+[ext_resource path="res://Fonts/ModernDOS/ModernDOS-32.tres" type="DynamicFont" id=4]
 [ext_resource path="res://Hud/Splash/Splash.tscn" type="PackedScene" id=5]
 [ext_resource path="res://Hud/NemeSetter/NameSetter.tscn" type="PackedScene" id=6]
 [ext_resource path="res://Hud/GameOwer/GameOwer.tscn" type="PackedScene" id=8]
@@ -17,13 +17,14 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 
 [node name="Score" type="Label" parent="IngameHud"]
+visible = false
 anchor_left = 0.5
 anchor_right = 0.5
-margin_left = -68.0
-margin_right = 68.0
+margin_left = -112.5
+margin_right = 112.5
 margin_bottom = 46.0
 custom_fonts/font = ExtResource( 4 )
-text = "score: 500"
+text = "score:0000    hscore:0000"
 align = 1
 valign = 1
 script = ExtResource( 3 )

@@ -3,9 +3,14 @@ using System;
 
 public class Game : Node2D
 {
+    [Export] public NodePath scorePointsRootNP;
+    Node2D scorePointsRoot;
+    [Export] public NodePath meteorsRootNP;
+    Node2D meteorsRoot;
+    PackedScene[] meteors;
     [Export] public NodePath dragLineNP;
     Line2D dragLine;
-    Point scorePointResource;
+    PackedScene scorePointResource;
     public static Vector2 oldMagnetForceDir = Vector2.One;
     public static Vector2 newMagnetForceDir = Vector2.One;
     public static string playerName;
@@ -18,7 +23,10 @@ public class Game : Node2D
 
 
     public static int score;
+    public static int oldScore;
 
+    float spawnCollectableTimer = 6;
+    float SpawnMeteorsTimer = 1;
 
     public override void _EnterTree()
     {
@@ -43,17 +51,34 @@ public class Game : Node2D
     void OnPointCollected()
     {
         score++;
+        if(oldScore<score)
+        {
+            oldScore = score;
+            PlayerPrefs.SetString("score",score.ToString());
+        }
     }
 
     public void StartGame()
     {
         gameStarted = true;
         GameEvents.GameStart?.Invoke();
+        oldScore = PlayerPrefs.GetString("score") == null ? 0 : int.Parse(PlayerPrefs.GetString("score"));
     }
 
     public override void _Ready()
     {
         dragLine = GetNode<Line2D>(dragLineNP);
+        
+        scorePointsRoot = GetNode<Node2D>(scorePointsRootNP);
+        scorePointResource = GD.Load<PackedScene>("res://Game/Point/Point.tscn");
+
+        meteorsRoot = GetNode<Node2D>(meteorsRootNP);
+        meteors = new PackedScene[3];
+        for(int i=0;i<3;i++)
+        {
+            meteors[i] = GD.Load<PackedScene>($"res://Game/Meteor/Meteor{i+1}.tscn");
+        }
+
         newMagnetForceDir = GetNewRandomDir();
         score = 0;
     }
@@ -76,6 +101,42 @@ public class Game : Node2D
         {
             GD.PrintErr("SwitchDir");
             newMagnetForceDir = GetNewRandomDir();
+        }
+
+        SpawnCollectablePoints(delta);
+        SpawnMeteors(delta);
+    }
+
+    void SpawnCollectablePoints(float delta)
+    {
+        if(score>0 && !gameEnded)//player collected first test point
+        {
+            spawnCollectableTimer -= delta;
+            if(spawnCollectableTimer < 0)
+            {
+                spawnCollectableTimer = 3 + GD.Randf()*6f;
+                Vector2 pos = new Vector2( Mathf.Clamp(GD.Randf()*310, 30, 310), Mathf.Clamp(GD.Randf()*610f,30,610));
+                Point scorP = scorePointResource.Instance<Point>();
+                scorP.Position = pos;
+                scorePointsRoot.AddChild(scorP);
+            }
+        }
+    }
+
+    void SpawnMeteors(float delta)
+    {
+        if(score>0 && !gameEnded && meteorsRoot.GetChildCount() < 30)//player collected first test point
+        {
+            SpawnMeteorsTimer -= delta;
+            if(SpawnMeteorsTimer < 0)
+            {
+                SpawnMeteorsTimer = 3 + GD.Randf()*6f;
+                int randomPick = Mathf.RoundToInt((float)GD.RandRange(0,2));
+                PackedScene metP = meteors[randomPick];
+                Meteor met = metP.Instance<Meteor>();
+                met.Position = Vector2.One * 1100;
+                meteorsRoot.AddChild(met);
+            }
         }
     }
 

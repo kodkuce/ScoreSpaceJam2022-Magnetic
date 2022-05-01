@@ -1,7 +1,8 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://Fonts/ModernDOS/ModernDOS-32.tres" type="DynamicFont" id=1]
 [ext_resource path="res://Hud/Splash/Splash.cs" type="Script" id=2]
+[ext_resource path="res://Art/Meteor1.png" type="Texture" id=3]
 
 [sub_resource type="Curve" id=1]
 _data = [ Vector2( 0.00200803, 0.990909 ), 0.0, -0.992903, 0, 1, Vector2( 1, 0 ), -0.992903, 0.0, 1, 0 ]
@@ -10,6 +11,7 @@ _data = [ Vector2( 0.00200803, 0.990909 ), 0.0, -0.992903, 0, 1, Vector2( 1, 0 )
 anchor_right = 1.0
 anchor_bottom = 1.0
 script = ExtResource( 2 )
+gameNameNP = NodePath("GameName")
 
 [node name="DragTutorial" type="Label" parent="."]
 margin_left = 112.0
@@ -18,7 +20,32 @@ margin_right = 229.0
 margin_bottom = 423.0
 custom_fonts/font = ExtResource( 1 )
 text = "Drag to apply
-force to UFO"
+force to UFO
+to fight 
+magnetic
+forces"
+
+[node name="DragTutorial2" type="Label" parent="."]
+margin_left = 62.0
+margin_top = 55.0
+margin_right = 179.0
+margin_bottom = 91.0
+custom_fonts/font = ExtResource( 1 )
+text = "Try to envade
+meteors"
+
+[node name="GameName" type="Label" parent="."]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -86.5
+margin_top = -80.0
+margin_right = 93.5
+rect_pivot_offset = Vector2( 90, 40 )
+text = "WELCOME TO
+MAGNET STORM"
+align = 1
 
 [node name="DontHitWalls" type="Label" parent="."]
 margin_left = 12.0
@@ -57,3 +84,7 @@ width_curve = SubResource( 1 )
 default_color = Color( 1, 1, 1, 1 )
 begin_cap_mode = 2
 end_cap_mode = 2
+
+[node name="Sprite" type="Sprite" parent="."]
+position = Vector2( 113, 112 )
+texture = ExtResource( 3 )

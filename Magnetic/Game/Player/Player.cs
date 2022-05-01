@@ -68,6 +68,7 @@ public class Player : RigidBody2D
     public override void _IntegrateForces(Physics2DDirectBodyState state)
     {
         base._IntegrateForces(state);
+        state.AngularVelocity = 0;
     }
 
     public override void _PhysicsProcess(float delta)
