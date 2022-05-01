@@ -1,4 +1,9 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=10 format=2]
+
+[ext_resource path="res://Game/Player/Player.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Game/Point/Point.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Game/BackgroundParticle/BackgroundParticle.cs" type="Script" id=3]
+[ext_resource path="res://Game/Game.cs" type="Script" id=4]
 
 [sub_resource type="Gradient" id=1]
 offsets = PoolRealArray( 0.929105, 1 )
@@ -6,11 +11,117 @@ colors = PoolColorArray( 0, 0, 0, 1, 0, 0, 0, 1 )
 
 [sub_resource type="GradientTexture" id=2]
 gradient = SubResource( 1 )
-width = 800
+width = 1
+
+[sub_resource type="RectangleShape2D" id=3]
+extents = Vector2( 180, 2 )
+
+[sub_resource type="RectangleShape2D" id=4]
+extents = Vector2( 2, 320 )
+
+[sub_resource type="Curve" id=5]
+_data = [ Vector2( 0.00200803, 0.990909 ), 0.0, -0.992903, 0, 1, Vector2( 1, 0 ), -0.992903, 0.0, 1, 0 ]
 
 [node name="Game" type="Node2D"]
+script = ExtResource( 4 )
+dragLineNP = NodePath("MouseDragLine")
 
-[node name="Sprite" type="Sprite" parent="."]
-position = Vector2( 170, 317 )
-scale = Vector2( 1, 800 )
+[node name="Background" type="Sprite" parent="."]
+position = Vector2( 195, -1356 )
+scale = Vector2( 4000, 4000 )
+z_index = -10
+z_as_relative = false
 texture = SubResource( 2 )
+
+[node name="BackgroundParticle" type="CPUParticles2D" parent="."]
+position = Vector2( 180, 320 )
+amount = 70
+lifetime = 3.0
+preprocess = 1.0
+emission_shape = 2
+emission_rect_extents = Vector2( 200, 400 )
+gravity = Vector2( 0, 0 )
+script = ExtResource( 3 )
+
+[node name="TopWall" type="Node2D" parent="."]
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Line2D" type="Line2D" parent="TopWall"]
+points = PoolVector2Array( 0, 0, 360, 0 )
+default_color = Color( 1, 1, 1, 1 )
+
+[node name="StaticBody2D" type="StaticBody2D" parent="TopWall"]
+position = Vector2( 180, 0 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="TopWall/StaticBody2D"]
+shape = SubResource( 3 )
+
+[node name="BotWall" type="Node2D" parent="."]
+position = Vector2( 0, 640 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Line2D" type="Line2D" parent="BotWall"]
+points = PoolVector2Array( 0, 0, 360, 0 )
+default_color = Color( 1, 1, 1, 1 )
+
+[node name="StaticBody2D" type="StaticBody2D" parent="BotWall"]
+position = Vector2( 180, 0 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="BotWall/StaticBody2D"]
+shape = SubResource( 3 )
+
+[node name="LeftWall" type="Node2D" parent="."]
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Line2D" type="Line2D" parent="LeftWall"]
+points = PoolVector2Array( 0, 0, 0, 640 )
+default_color = Color( 1, 1, 1, 1 )
+
+[node name="StaticBody2D" type="StaticBody2D" parent="LeftWall"]
+position = Vector2( 0, 320 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="LeftWall/StaticBody2D"]
+shape = SubResource( 4 )
+
+[node name="RightWall" type="Node2D" parent="."]
+position = Vector2( 360, 0 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Line2D" type="Line2D" parent="RightWall"]
+points = PoolVector2Array( 0, 0, 0, 640 )
+default_color = Color( 1, 1, 1, 1 )
+
+[node name="StaticBody2D" type="StaticBody2D" parent="RightWall"]
+position = Vector2( 0, 320 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="RightWall/StaticBody2D"]
+shape = SubResource( 4 )
+
+[node name="Player" parent="." instance=ExtResource( 1 )]
+position = Vector2( 182, 359 )
+gravity_scale = 0.0
+contacts_reported = 0
+contact_monitor = false
+linear_damp = 1.0
+angular_damp = 1.0
+
+[node name="Point" parent="." instance=ExtResource( 2 )]
+position = Vector2( 177, 521 )
+
+[node name="MouseDragLine" type="Line2D" parent="."]
+visible = false
+z_index = -1
+points = PoolVector2Array( 300, 200, 150, 150 )
+width = 20.0
+width_curve = SubResource( 5 )
+default_color = Color( 1, 1, 1, 1 )
+begin_cap_mode = 2
+end_cap_mode = 2

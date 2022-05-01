@@ -26,6 +26,7 @@ public class LootLockerHandler : Node
 
     void OnPlayerPrefsInited()
     {
+        return;
         CheckIfFreshUser();
     }
 

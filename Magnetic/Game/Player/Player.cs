@@ -5,39 +5,32 @@ public class Player : RigidBody2D
 {
 
     bool gameEnd;
+    bool gameStarted;
 
     public override void _EnterTree()
     {
         base._EnterTree();
         GameEvents.InputDragHeppend += OnInputDragHeppend;
+        GameEvents.GameStart += OnGameStart;
     }
 
     public override void _ExitTree()
     {
         base._ExitTree();
         GameEvents.InputDragHeppend -= OnInputDragHeppend;
+        GameEvents.GameStart -= OnGameStart;
     }
-
-    // public override void _Ready()
-    // {
-    //     base._Ready();
-    //     Connect("body_entered", this, nameof(OnBodyEnter));
-    // }
-
-    // public void OnBodyEnter(Node body)
-    // {
-    //     if(body is StaticBody2D)
-    //     {
-    //         GD.PrintErr("WallHit");
-    //     }
-    // }
 
     private void OnInputDragHeppend(Vector2 dir)
     {
-        AddForce(Vector2.Zero, dir);
+        if(gameStarted && !gameEnd)
+            AddForce(Vector2.Zero, dir*0.5f);
     }
 
-
+    private void OnGameStart()
+    {
+        gameStarted = true;
+    }
 
     public override void _Process(float delta)
     {
@@ -49,7 +42,7 @@ public class Player : RigidBody2D
     {
         if
         (
-            !gameEnd &&
+            gameStarted && !gameEnd &&
             (
             Position.x < 20 || 
             Position.x > 340 ||
@@ -72,5 +65,7 @@ public class Player : RigidBody2D
     public override void _PhysicsProcess(float delta)
     {
         base._PhysicsProcess(delta);
+        if(gameStarted && !gameEnd)
+            AddCentralForce(Game.oldMagnetForceDir*delta*0.1f);
     }
 }

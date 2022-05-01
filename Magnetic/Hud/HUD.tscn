@@ -1,9 +1,32 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://Leaderboard/Leaderboard.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Hud/MagnetForceGuage/MagnetForceGuageHud.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Hud/Score/Score.cs" type="Script" id=3]
 
 [node name="HUD" type="Control"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 
 [node name="Leaderboard" parent="." instance=ExtResource( 1 )]
+
+[node name="IngameHud" type="Control" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="Score" type="Label" parent="IngameHud"]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -68.0
+margin_right = 68.0
+margin_bottom = 46.0
+text = "score: 500"
+align = 1
+valign = 1
+script = ExtResource( 3 )
+
+[node name="MagnetForceGuageHud" parent="IngameHud" instance=ExtResource( 2 )]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -32.0
+margin_right = 32.0
