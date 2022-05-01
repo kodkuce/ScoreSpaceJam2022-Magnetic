@@ -29,6 +29,7 @@ PlayerPrefs="*res://PlayerPrefs/PlayerPrefs.cs"
 window/size/width=360
 window/size/height=640
 window/size/resizable=false
+window/size/always_on_top=true
 window/handheld/orientation="portrait"
 
 [gui]
