@@ -57,8 +57,8 @@ public class Leaderboard : Control
             Godot.Collections.Dictionary row = (Godot.Collections.Dictionary)rows[i];
             string name;
             int score = int.Parse( row["score"].ToString());
-            GD.PrintErr( int.Parse( row["score"].ToString()) );
-            GD.PrintErr(row["score"].GetType());
+            // GD.PrintErr( int.Parse( row["score"].ToString()) );
+            // GD.PrintErr(row["score"].GetType());
             if(row["player"] is Godot.Collections.Dictionary pdata)
             {
                 name = (string)pdata["name"];

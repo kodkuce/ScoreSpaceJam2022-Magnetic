@@ -29,8 +29,6 @@ public class Meteor : RigidBody2D
             Transform2D transform2D = state.Transform;
             transform2D.origin = randomNewPos;
             state.Transform = transform2D;
-            GD.PrintErr("PRE RES");
-            GD.PrintErr(GlobalPosition);
         }
     }
 }

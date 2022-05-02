@@ -120,7 +120,7 @@ public class Game : Node2D
         oldMagnetForceDir = oldMagnetForceDir.LinearInterpolate(newMagnetForceDir,delta*switchDirSpeed);
         if(oldMagnetForceDir.DistanceSquaredTo(newMagnetForceDir) < 5)
         {
-            GD.PrintErr("SwitchDir");
+            // GD.PrintErr("SwitchDir");
             newMagnetForceDir = GetNewRandomDir();
         }
 
