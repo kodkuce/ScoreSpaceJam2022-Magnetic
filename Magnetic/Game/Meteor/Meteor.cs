@@ -22,7 +22,7 @@ public class Meteor : RigidBody2D
         {
             //reset postion 
             Vector2 dir = Game.oldMagnetForceDir.LinearInterpolate(Game.newMagnetForceDir,1).Normalized().Rotated((float)GD.RandRange(-1.0,1.0));
-            Vector2 randomNewPos = new Vector2(180,320) - dir * 350;
+            Vector2 randomNewPos = new Vector2(180,320) - dir * 370;
 
             state.LinearVelocity = Vector2.Zero;
             state.AngularVelocity = 0;

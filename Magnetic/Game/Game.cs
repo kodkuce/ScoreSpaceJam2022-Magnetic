@@ -8,6 +8,7 @@ public class Game : Node2D
     [Export] public NodePath meteorsRootNP;
     Node2D meteorsRoot;
     PackedScene[] meteors;
+    int whatMeteor;
     [Export] public NodePath dragLineNP;
     Line2D dragLine;
     PackedScene scorePointResource;
@@ -151,8 +152,10 @@ public class Game : Node2D
             if(SpawnMeteorsTimer < 0)
             {
                 SpawnMeteorsTimer = 3 + GD.Randf()*6f;
-                int randomPick = Mathf.RoundToInt((float)GD.RandRange(0,2));
-                PackedScene metP = meteors[randomPick];
+                // whatMeteor = Mathf.RoundToInt((float)GD.RandRange(0,2));
+                whatMeteor++;
+                whatMeteor = whatMeteor > 2 ? 0 : whatMeteor;
+                PackedScene metP = meteors[whatMeteor];
                 Meteor met = metP.Instance<Meteor>();
                 met.Position = Vector2.One * 1100;
                 meteorsRoot.AddChild(met);
