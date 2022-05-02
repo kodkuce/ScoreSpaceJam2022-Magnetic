@@ -24,7 +24,7 @@ public class Player : RigidBody2D
     private void OnInputDragHeppend(Vector2 dir)
     {
         if(gameStarted && !gameEnd)
-            AddForce(Vector2.Zero, dir*0.5f);
+            AddForce(Vector2.Zero, dir*0.75f);
     }
 
     private void OnGameStart()

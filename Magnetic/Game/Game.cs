@@ -13,9 +13,9 @@ public class Game : Node2D
     PackedScene scorePointResource;
     public static Vector2 oldMagnetForceDir = Vector2.One;
     public static Vector2 newMagnetForceDir = Vector2.One;
-    public static string playerName;
     float speed = 1;
     float switchDirSpeed = 0.2f;
+    bool canStartGame;
     bool gameStarted;
     bool gameEnded;
     float passedTime = 0f;
@@ -34,6 +34,7 @@ public class Game : Node2D
         GameEvents.GameEnd += OnGameEnd;
         GameEvents.PointCollected += OnPointCollected;
         GameEvents.PressRestartButton += RestartGame;
+        GameEvents.ShowStartScene += OnShowStartScene;
     }
 
     public override void _ExitTree()
@@ -42,6 +43,7 @@ public class Game : Node2D
         GameEvents.GameEnd -= OnGameEnd;
         GameEvents.PointCollected -= OnPointCollected;
         GameEvents.PressRestartButton -= RestartGame;
+        GameEvents.ShowStartScene -= OnShowStartScene;
     }
 
     void OnGameEnd()
@@ -56,6 +58,12 @@ public class Game : Node2D
             oldScore = score;
             PlayerPrefs.SetString("score",score.ToString());
         }
+    }
+
+    void OnShowStartScene()
+    {
+        GD.PrintErr("CAN START GAME");
+        canStartGame = true;
     }
 
     public void StartGame()
@@ -81,6 +89,11 @@ public class Game : Node2D
 
         newMagnetForceDir = GetNewRandomDir();
         score = 0;
+
+        if(!string.IsNullOrEmpty(LootLockerHandler.playerName))
+        {
+            canStartGame = true;
+        }
     }
 
     Vector2 GetNewRandomDir()
@@ -165,7 +178,10 @@ public class Game : Node2D
             }else
             {
                 Vector2 dir = clickStartMousePos - mouseInput.Position;
-                if(!gameStarted) StartGame();
+                if(!gameStarted && canStartGame)
+                {
+                    StartGame();
+                } 
                 GameEvents.InputDragHeppend?.Invoke(dir);
                 dragLine.Visible = false;
             }
@@ -186,7 +202,7 @@ public class Game : Node2D
 
     void CheckForRestartBTN(InputEvent @event)
     {
-        if(@event is InputEventKey key && key.Scancode == (uint)KeyList.R && !restarting)
+        if(@event is InputEventKey key && key.Scancode == (uint)KeyList.R && !restarting && canStartGame)
         {
             restarting = true;
             GD.PrintErr("Pritisnuo R");
