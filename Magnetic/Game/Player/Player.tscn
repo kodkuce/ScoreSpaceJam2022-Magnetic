@@ -43,7 +43,10 @@ radius = 15.0
 
 [node name="Player" type="RigidBody2D"]
 position = Vector2( 180, 320 )
+linear_damp = 1.0
+angular_damp = 10.0
 script = ExtResource( 1 )
+moveParticleNP = NodePath("MoveParticle")
 
 [node name="DamageParticle" type="CPUParticles2D" parent="."]
 z_index = 2
@@ -58,6 +61,15 @@ initial_velocity = 25.0
 initial_velocity_random = 0.5
 scale_amount = 10.0
 color_ramp = SubResource( 8 )
+
+[node name="MoveParticle" type="CPUParticles2D" parent="."]
+z_index = -5
+amount = 16
+local_coords = false
+emission_shape = 1
+emission_sphere_radius = 13.0
+spread = 0.0
+gravity = Vector2( 0, 0 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 autoplay = "SpaceshipAnimPass"

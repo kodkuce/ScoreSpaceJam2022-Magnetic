@@ -3,9 +3,17 @@ using System;
 
 public class Player : RigidBody2D
 {
+    [Export] NodePath moveParticleNP;
+    CPUParticles2D moveParticle;
 
     bool gameEnd;
     bool gameStarted;
+
+    public override void _Ready()
+    {
+        base._Ready();
+        moveParticle = GetNode<CPUParticles2D>(moveParticleNP);
+    }
 
     public override void _EnterTree()
     {
@@ -36,6 +44,7 @@ public class Player : RigidBody2D
     {
         base._Process(delta);
         CheckPlayerHitWall();
+        PorcessMoveParticle();
     }
 
     void CheckPlayerHitWall()
@@ -63,6 +72,13 @@ public class Player : RigidBody2D
             GetNode<CPUParticles2D>("DamageParticle").Emitting = true;
             GameEvents.GameEnd?.Invoke();
         }
+    }
+
+    void PorcessMoveParticle()
+    {
+        moveParticle.Direction = LinearVelocity;
+        moveParticle.InitialVelocity = LinearVelocity.Length();
+        moveParticle.Gravity = Game.oldMagnetForceDir;
     }
 
     public override void _IntegrateForces(Physics2DDirectBodyState state)

@@ -51,7 +51,6 @@ public class Leaderboard : Control
         PackedScene lEntry = GD.Load<PackedScene>("res://Leaderboard/LeaderboardEntry/LeaderboardEntry.tscn");
         Godot.Collections.Array rows = (Godot.Collections.Array)data["items"];
 
-
         for(int i=0;i<rows.Count;i++)
         {
             Godot.Collections.Dictionary row = (Godot.Collections.Dictionary)rows[i];
