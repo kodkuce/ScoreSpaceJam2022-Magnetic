@@ -207,6 +207,7 @@ public class Game : Node2D
 
     void RestartGame()
     {
+        GameEvents.PlaySFX?.Invoke("restart");
         GetTree().ReloadCurrentScene();
     }
 

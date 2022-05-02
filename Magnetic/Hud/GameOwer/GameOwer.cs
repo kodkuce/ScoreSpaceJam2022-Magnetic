@@ -28,6 +28,7 @@ public class GameOwer : Control
         if( Game.newHighScore )
         {
             highscoreLabele.Visible = true;
+            GameEvents.PlaySFX?.Invoke("new_highscore");
         }
 
         leaderboardButton.Disabled = false;

@@ -23,6 +23,7 @@ config/icon="res://icon.png"
 GameEvents="*res://GameEvents/GameEvents.cs"
 LootLockerHandler="*res://LootLocker/LootLockerHandler.tscn"
 PlayerPrefs="*res://PlayerPrefs/PlayerPrefs.cs"
+AudioPlayer="*res://AudioPlayer/AudioPlayer.tscn"
 
 [display]
 

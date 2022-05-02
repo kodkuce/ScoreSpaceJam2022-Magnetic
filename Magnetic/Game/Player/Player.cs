@@ -61,6 +61,8 @@ public class Player : RigidBody2D
         )
         {
             GD.PrintErr("CRASHED");
+            string[] expSound = {"exp0", "exp1", "exp2"};
+            GameEvents.PlaySFX?.Invoke(expSound[Mathf.RoundToInt((float)GD.RandRange(0,2))]);
             SetProcess(false);
             SetPhysicsProcess(false);
             SetPhysicsProcessInternal(false);
