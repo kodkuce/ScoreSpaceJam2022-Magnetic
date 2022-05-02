@@ -4,7 +4,7 @@ using System;
 public class Point : Area2D
 {
     [Export] bool IsFirst;
-    float selfDestoryTime = 7f;
+    float selfDestoryTime = 12f;
     public override void _Ready()
     {
         base._Ready();
