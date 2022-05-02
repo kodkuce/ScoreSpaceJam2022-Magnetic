@@ -25,9 +25,7 @@ public class GameOwer : Control
     void OnGameEnd()
     {
         Visible = true;
-        int oldScore = PlayerPrefs.GetString("score") == null ? 0 : int.Parse(PlayerPrefs.GetString("score"));
-        GD.Print(oldScore);
-        if( oldScore < Game.score )
+        if( Game.newHighScore )
         {
             highscoreLabele.Visible = true;
         }
@@ -68,7 +66,7 @@ public class GameOwer : Control
 
     void PressLeaderboard()
     {
-        GameEvents.PressLeaderboardButton?.Invoke();
+        GameEvents.ShowLeaderboard?.Invoke();
         QueueFree();
     }
 }

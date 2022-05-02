@@ -16,4 +16,5 @@ public class GameEvents : Node
     public static Action<string> PlayerSetName;
     public static Action PressLeaderboardButton;
     public static Action PressRestartButton;
+    public static Action<Godot.Collections.Dictionary> GotLeaderboardData;
 }

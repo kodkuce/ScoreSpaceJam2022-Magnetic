@@ -1,5 +1,6 @@
 using Godot;
 using System;
+using System.Linq;
 
 public class Leaderboard : Control
 {
@@ -12,6 +13,7 @@ public class Leaderboard : Control
     {
         base._EnterTree();
         GameEvents.ShowLeaderboard += OnShowLeaderboard;
+        GameEvents.GotLeaderboardData += OnGotLeaderboardData;
     }
 
 
@@ -19,6 +21,7 @@ public class Leaderboard : Control
     {
         base._ExitTree();
         GameEvents.ShowLeaderboard -= OnShowLeaderboard;
+        GameEvents.GotLeaderboardData -= OnGotLeaderboardData;
     }
 
     public override void _Ready()
@@ -29,24 +32,40 @@ public class Leaderboard : Control
 
     private void OnShowLeaderboard()
     {
-        FillWithData();
+        GD.PrintErr("zzz");
         GetNode<Control>(leaderboardRoot).Visible = true;
+    }
+
+    private void OnGotLeaderboardData(Godot.Collections.Dictionary data)
+    {
+        FillWithData(data);
     }
 
     private void CloseLeaderboard()
     {
-        GetNode<Control>(leaderboardRoot).Visible = false;
+        GameEvents.PressRestartButton();
     }
 
-    public void FillWithData()
+    public void FillWithData(Godot.Collections.Dictionary data)
     {
         PackedScene lEntry = GD.Load<PackedScene>("res://Leaderboard/LeaderboardEntry/LeaderboardEntry.tscn");
+        Godot.Collections.Array rows = (Godot.Collections.Array)data["items"];
 
-        for(int i=0;i<10;i++)
+
+        for(int i=0;i<rows.Count;i++)
         {
-            LeaderboardEntry leaderboardEntry = lEntry.Instance<LeaderboardEntry>();
-            leaderboardEntry.SetEntryValues(i+1, "EMPTY", 100 - i*10);
-            GetNode(leaderboardEntriesRoot).AddChild(leaderboardEntry);
+            Godot.Collections.Dictionary row = (Godot.Collections.Dictionary)rows[i];
+            string name;
+            int score = int.Parse( row["score"].ToString());
+            GD.PrintErr( int.Parse( row["score"].ToString()) );
+            GD.PrintErr(row["score"].GetType());
+            if(row["player"] is Godot.Collections.Dictionary pdata)
+            {
+                name = (string)pdata["name"];
+                LeaderboardEntry leaderboardEntry = lEntry.Instance<LeaderboardEntry>();
+                leaderboardEntry.SetEntryValues(i+1, name, score);
+                GetNode(leaderboardEntriesRoot).AddChild(leaderboardEntry);
+            }
         }
     }
 }

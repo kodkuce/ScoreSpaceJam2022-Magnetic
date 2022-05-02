@@ -18,28 +18,29 @@ leaderboardEntriesRoot = NodePath("Root/CenterContainer/LeaderboardMain/Leaderbo
 leaderboardRoot = NodePath("Root")
 closeButton = NodePath("Root/CloseButton")
 
-[node name="Panel" type="Panel" parent="."]
-visible = false
-anchor_right = 1.0
-anchor_bottom = 1.0
-
 [node name="Root" type="Control" parent="."]
 visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 
+[node name="ColorRect" type="ColorRect" parent="Root"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color( 0, 0, 0, 1 )
+
 [node name="CenterContainer" type="CenterContainer" parent="Root"]
 anchor_right = 1.0
 anchor_bottom = 1.0
+margin_top = 200.0
+margin_bottom = -200.0
 grow_horizontal = 2
 grow_vertical = 2
 
 [node name="LeaderboardMain" type="VBoxContainer" parent="Root/CenterContainer"]
 margin_left = 106.0
-margin_top = 20.0
 margin_right = 253.0
-margin_bottom = 620.0
-rect_min_size = Vector2( 0, 600 )
+margin_bottom = 500.0
+rect_min_size = Vector2( 0, 500 )
 
 [node name="Label" type="Label" parent="Root/CenterContainer/LeaderboardMain"]
 margin_right = 147.0

@@ -17,6 +17,7 @@ public class LootLockerHandler : Node
         base._EnterTree();
         GameEvents.PlayerPrefsInited += OnPlayerPrefsInited;
         GameEvents.PlayerSetName += OnPlayerSetName;
+        GameEvents.GameEnd += OnGameEnd;
     }
 
     public override void _ExitTree()
@@ -24,6 +25,7 @@ public class LootLockerHandler : Node
         base._ExitTree();
         GameEvents.PlayerPrefsInited -= OnPlayerPrefsInited;
         GameEvents.PlayerSetName -= OnPlayerSetName;
+        GameEvents.GameEnd -= OnGameEnd;
     }
 
     void OnPlayerPrefsInited()
@@ -35,6 +37,11 @@ public class LootLockerHandler : Node
     {
         playerName = name;
         SetPlayerName(playerName);
+    }
+
+    void OnGameEnd()
+    {
+        if(Game.newHighScore) SendScore(Game.score); else GetLeaderboardTop10Data();;
     }
 
 
@@ -205,6 +212,8 @@ public class LootLockerHandler : Node
             GD.PrintErr("LL failed to send score");
         }
         httpRequest.Disconnect("request_completed", this, nameof(OnSendScoreCompleted));
+
+        GetLeaderboardTop10Data();
     }
 
     public void GetLeaderboardTop10Data()
@@ -223,6 +232,8 @@ public class LootLockerHandler : Node
             JSONParseResult json = JSON.Parse(System.Text.Encoding.UTF8.GetString(body));
             GD.Print(json.Result);
             GD.PrintErr("LL got top 10 completed");
+            Godot.Collections.Dictionary results = json.Result as Godot.Collections.Dictionary;
+            GameEvents.GotLeaderboardData?.Invoke(results);
         }else
         {
             JSONParseResult json = JSON.Parse(System.Text.Encoding.UTF8.GetString(body));
@@ -230,10 +241,5 @@ public class LootLockerHandler : Node
             GD.PrintErr("LL failed to get top 10");
         }
         httpRequest.Disconnect("request_completed", this, nameof(OnGetLeaderboardTop10DataCompleted));
-    }
-
-    void SaveData()
-    {
-
     }
 }

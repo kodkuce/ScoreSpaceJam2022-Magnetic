@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=3 format=2]
 
 [ext_resource path="res://Leaderboard/LeaderboardEntry/LeaderboardEntry.cs" type="Script" id=1]
+[ext_resource path="res://Fonts/ModernDOS/ModernDOS-64.tres" type="DynamicFont" id=2]
 
 [node name="LeaderboardEntry" type="HBoxContainer"]
 margin_right = 308.0
@@ -9,23 +10,26 @@ script = ExtResource( 1 )
 
 [node name="pos" type="Label" parent="."]
 margin_right = 50.0
-margin_bottom = 14.0
+margin_bottom = 30.0
 rect_min_size = Vector2( 50, 0 )
+custom_fonts/font = ExtResource( 2 )
 text = "1."
 align = 1
 
 [node name="name" type="Label" parent="."]
 margin_left = 54.0
-margin_right = 254.0
-margin_bottom = 14.0
+margin_right = 262.0
+margin_bottom = 30.0
 rect_min_size = Vector2( 200, 0 )
+custom_fonts/font = ExtResource( 2 )
 text = "dsadsadsadasd"
 align = 1
 
 [node name="score" type="Label" parent="."]
-margin_left = 258.0
-margin_right = 308.0
-margin_bottom = 14.0
+margin_left = 266.0
+margin_right = 330.0
+margin_bottom = 30.0
 rect_min_size = Vector2( 50, 0 )
+custom_fonts/font = ExtResource( 2 )
 text = "9999"
 align = 1

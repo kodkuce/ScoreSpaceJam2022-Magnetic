@@ -24,6 +24,7 @@ public class Game : Node2D
 
     public static int score;
     public static int oldScore;
+    public static bool newHighScore; 
 
     float spawnCollectableTimer = 6;
     float SpawnMeteorsTimer = 1;
@@ -49,12 +50,17 @@ public class Game : Node2D
     void OnGameEnd()
     {
         gameEnded = true;
+        if(oldScore<score)
+        {
+
+        }
     }
     void OnPointCollected()
     {
         score++;
         if(oldScore<score)
         {
+            newHighScore = true;
             oldScore = score;
             PlayerPrefs.SetString("score",score.ToString());
         }
@@ -71,6 +77,7 @@ public class Game : Node2D
         gameStarted = true;
         GameEvents.GameStart?.Invoke();
         oldScore = PlayerPrefs.GetString("score") == null ? 0 : int.Parse(PlayerPrefs.GetString("score"));
+        newHighScore = false;
     }
 
     public override void _Ready()
